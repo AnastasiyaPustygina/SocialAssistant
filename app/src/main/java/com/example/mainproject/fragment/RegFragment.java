@@ -146,7 +146,7 @@ public class RegFragment extends Fragment {
                         StringBuilder stringBuilder = new StringBuilder();
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         Bitmap.CompressFormat imFor = Bitmap.CompressFormat.JPEG;
-                        bitmap.compress(imFor, 0, stream);
+                        bitmap.compress(imFor, 100, stream);
                         byte[] photoPer = stream.toByteArray();
                         for (int i = 0; i < photoPer.length - 1; i++) {
                             stringBuilder.append(String.valueOf(photoPer[i])).append(" ");
@@ -158,7 +158,7 @@ public class RegFragment extends Fragment {
                         editor.commit();
 
 
-                                openHelper.insert(new Person(data, name, age, dateOfBirth, city, password1));
+                                openHelper.insert(new Person(data, name, age, dateOfBirth, city, password1.hashCode() + ""));
 
                             new AppApiVolley(getContext()).addPerson
                                     (openHelper.findPersonByLogin(name));

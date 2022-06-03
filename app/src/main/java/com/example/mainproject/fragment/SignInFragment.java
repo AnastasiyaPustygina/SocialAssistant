@@ -33,24 +33,24 @@ public class SignInFragment extends Fragment {
     }
 
 
-    @Override
+   @Override
     public void onStart() {
         super.onStart();
-        sharedPreferences = getContext().getSharedPreferences
-                (APP_PREFERENCES, Context.MODE_PRIVATE);
-        TextView checking = getActivity().findViewById(R.id.tv_check);
+       sharedPreferences = getContext().getSharedPreferences
+               (APP_PREFERENCES, Context.MODE_PRIVATE);
+       TextView checking = getActivity().findViewById(R.id.tv_check);
         ed_data = getActivity().findViewById(R.id.ed_signIn_data);
         ed_pass = getActivity().findViewById(R.id.ed_signIn_pass);
         btSignIn = getActivity().findViewById(R.id.bt_signIn_fr_signIn);
         btReg = getActivity().findViewById(R.id.bt_reg_fr_signIn);
-        btReg.setOnClickListener((view1) -> {
-            NavHostFragment.findNavController(SignInFragment.this).navigate(
-                    R.id.action_signInFragment_to_regFragment);
-        });
-        btSignIn.performClick();
+       btReg.setOnClickListener((view1) -> {
+           NavHostFragment.findNavController(SignInFragment.this).navigate(
+                   R.id.action_signInFragment_to_regFragment);
+       });
+       btSignIn.performClick();
         OpenHelper oh = new OpenHelper(getContext(), "OpenHelder", null, OpenHelper.VERSION);
         try {
-            Log.d("sif", oh.findAllChats().toString());
+            Log.e("sif", oh.findAllChats().toString());
         } catch (Exception e) {e.printStackTrace();}
 
         btSignIn.setOnClickListener(new View.OnClickListener() {
@@ -58,8 +58,8 @@ public class SignInFragment extends Fragment {
             public void onClick(View view) {
                 if (ed_pass.getText().toString().isEmpty() || ed_data.getText().toString().isEmpty())
                     checking.setText("Не все поля заполнены");
-                else if (ed_pass.getText().toString().equals(
-                        oh.findPassByLogin(ed_data.getText().toString()))) {
+                else if ((ed_pass.getText().toString().hashCode() + "").equals(oh.findPassByLogin(ed_data.getText().toString())))
+                {
                     Bundle bundle = new Bundle();
                     bundle.putString("LOG", ed_data.getText().toString());
                     btSignIn.setOnClickListener((view1) -> {

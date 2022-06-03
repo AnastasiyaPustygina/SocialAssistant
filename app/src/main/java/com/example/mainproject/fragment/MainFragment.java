@@ -92,8 +92,8 @@ public class MainFragment extends Fragment {
 
                         new AppApiVolley(getContext()).updatePerson(
                                 person.getId(), person.getTelephone(), person.getEmail(),
-                        person.getName(), photoPer,
-                                person.getAge(), person.getDateOfBirth() ,person.getCity());
+                                person.getName(), photoPer,
+                                person.getAge(), person.getDateOfBirth() ,person.getCity(), person.getPassword());
                     }
                 }
         );
@@ -122,8 +122,13 @@ public class MainFragment extends Fragment {
                 null, OpenHelper.VERSION);
         Person client = openHelper.findPersonByLogin(nameVal);
         try {
+            String[] s = client.getPhotoPer().split(" ");
+            byte[] byteArray = new byte[s.length];
+            for (int i = 0; i < s.length; i++) {
+                byteArray[i] = Byte.parseByte(s[i]);
+            }
             iv_ava.setImageBitmap(BitmapFactory.decodeByteArray(
-                    client.getPhotoPer(), 0, client.getPhotoPer().length));
+                    byteArray, 0, byteArray.length));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -141,7 +146,7 @@ public class MainFragment extends Fragment {
         tv_city.setText(client.getCity());
         Bundle bundleLog = new Bundle();
         bundleLog.putString("LOG", getArguments().getString("LOG"));
-        Log.e("PER_BYTE_ARRAY", Arrays.toString(client.getPhotoPer()));
+        Log.e("PER_BYTE_ARRAY", client.getPhotoPer());
         iv_ava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,7 +166,7 @@ public class MainFragment extends Fragment {
                 bt_fav.performClick();
             }
         });
-                bt_list.setOnClickListener(new View.OnClickListener() {
+        bt_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bt_list.setOnClickListener((view1) -> {
@@ -184,22 +189,20 @@ public class MainFragment extends Fragment {
             }
         });
         try{
-        bt_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bt_map.setOnClickListener((view1) -> {
-                    NavHostFragment.
-                            findNavController(MainFragment.this).navigate(
-                            R.id.action_mainFragment_to_mapFragment, bundleLog);
-                });
-                bt_map.performClick();
-            }
-        });
+            bt_map.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bt_map.setOnClickListener((view1) -> {
+                        NavHostFragment.
+                                findNavController(MainFragment.this).navigate(
+                                R.id.action_mainFragment_to_mapFragment, bundleLog);
+                    });
+                    bt_map.performClick();
+                }
+            });
         }catch (Exception e){
             Log.d("FavFragment", "Получение разрешения на определение геолокации");
         }
     }
 
 }
-
-

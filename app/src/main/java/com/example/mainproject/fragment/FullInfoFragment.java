@@ -58,8 +58,15 @@ public class FullInfoFragment extends Fragment {
         link = getActivity().findViewById(R.id.tv_fullInfo_linkToWeb);
         OpenHelper openHelper = new OpenHelper(getContext(), "OpenHelder", null, OpenHelper.VERSION);
         Organization organization = openHelper.findOrgByName(getArguments().getString("NameOrg"));
+
+        String[] s = organization.getPhotoOrg().split(" ");
+        byte[] byteArray = new byte[s.length];
+        for (int i = 0; i < s.length; i++) {
+            byteArray[i] = Byte.parseByte(s[i]);
+        }
+
         Bitmap bitmap = BitmapFactory.
-                decodeByteArray(organization.getPhotoOrg(), 0, organization.getPhotoOrg().length);
+                decodeByteArray(byteArray, 0, byteArray.length);
         photoOrg.setImageBitmap(bitmap);
         name.setText(organization.getName());
         String tmp = getColoredSpanned(organization.getType(), "#000000");

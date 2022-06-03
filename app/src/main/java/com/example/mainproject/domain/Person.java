@@ -13,10 +13,10 @@ public class Person {
     private String telephone;
     private String email;
     private String name;
-    private byte[] photoPer;
-    private int age;
+    private String photoPer;
     private String dateOfBirth;
     private String city;
+    private int age;
     private String password;
     private ArrayList<String> arr_fav_org = new ArrayList<>();
 
@@ -28,16 +28,11 @@ public class Person {
         this.name = name;
 
         SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
-        List<String> stringArrayList = Arrays.asList(
-                sharedPreferences.getString("per_photo" + name, "NOT FOUND PREF").split(" "));
-        byte[] byteArray = new byte[stringArrayList.size()];
-        for (int i = 0; i < stringArrayList.size(); i++) {
-            byteArray[i] = Byte.parseByte(stringArrayList.get(i));
-        }
-        this.photoPer = byteArray;
+
+        photoPer = sharedPreferences.getString("per_photo" + name, "NOT FOUND PREF");
 
         Log.e("PERSON_PHOTO_IS_NULL", (photoPer == null) + "");
-            this.age = age;
+        this.age = age;
 
         this.dateOfBirth = dateOfBirth;
         this.city = city;
@@ -50,13 +45,8 @@ public class Person {
         else this.telephone = data;
         this.name = name;
         SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
-        List<String> stringArrayList = Arrays.asList(
-                    sharedPreferences.getString("per_photo" + name, "NOT FOUND PREF").split(" "));
-        byte[] byteArray = new byte[stringArrayList.size()];
-            for (int i = 0; i < stringArrayList.size(); i++) {
-                byteArray[i] = Byte.parseByte(stringArrayList.get(i));
-            }
-            this.photoPer = byteArray;
+
+        photoPer = sharedPreferences.getString("per_photo" + name, "NOT FOUND PREF");
 
         this.age = age;
         this.dateOfBirth = dateOfBirth;
@@ -65,19 +55,14 @@ public class Person {
     }
 
     public Person(int id, String telephone, String email, String name,
-                   int age, String dateOfBirth, String city, String password) {
+                  int age, String dateOfBirth, String city, String password) {
         this.id = id;
         this.telephone = telephone;
         this.email = email;
         this.name = name;
         SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
-        List<String> stringArrayList = Arrays.asList(
-                sharedPreferences.getString("per_photo" + name, "NOT FOUND PREF").split(" "));
-        byte[] byteArray = new byte[stringArrayList.size()];
-        for (int i = 0; i < stringArrayList.size(); i++) {
-            byteArray[i] = Byte.parseByte(stringArrayList.get(i));
-        }
-        this.photoPer = byteArray;
+
+        photoPer = sharedPreferences.getString("per_photo" + name, "NOT FOUND PREF");
 
         this.age = age;
         this.dateOfBirth = dateOfBirth;
@@ -124,7 +109,7 @@ public class Person {
         else arr_fav_org.add(nameOfOrg);
     }
 
-    public byte[] getPhotoPer() {
+    public String getPhotoPer() {
         return photoPer;
     }
 

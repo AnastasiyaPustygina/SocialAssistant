@@ -11,6 +11,8 @@ import com.example.mainproject.domain.Person;
 
 public interface AppApi {
 
+    void fillPerson();
+
     void fillOrganization();
 
     void addPerson(Person person);
@@ -24,7 +26,7 @@ public interface AppApi {
     void fillMsg();
     void addMessage(Message message);
     void updatePerson(int id, String telephone, String email, String name, byte[] photoPer,
-                      int age, String dateOfBirth, String city);
+                      int age, String dateOfBirth, String city, String password);
 
 }
 

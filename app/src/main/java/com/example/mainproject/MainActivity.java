@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             super.run();
+            new AppApiVolley(MainActivity.this).fillPerson();
             new AppApiVolley(MainActivity.this).fillOrganization();
             new AppApiVolley(MainActivity.this).fillChats();
             new AppApiVolley(MainActivity.this).fillMsg();

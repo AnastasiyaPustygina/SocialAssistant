@@ -76,8 +76,14 @@ public class OrgArrayAdapter extends RecyclerView.Adapter<OrgArrayAdapter.ViewHo
         holder.nameOrg.setText(organization.getName());
         holder.typeOrg.setText("Тип: " + organization.getType());
         holder.needsOrg.setText("Потребности: " + organization.getNeeds());
+
+        String[] s =  organization.getPhotoOrg().split(" ");
+        byte[] byteArray = new byte[s.length];
+        for (int i = 0; i < s.length; i++) {
+            byteArray[i] = Byte.parseByte(s[i]);
+        }
         holder.ph.setImageBitmap(BitmapFactory.
-                decodeByteArray(organization.getPhotoOrg(), 0, organization.getPhotoOrg().length));
+                decodeByteArray(byteArray, 0, byteArray.length));
         holder.btIdenFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,8 +133,8 @@ public class OrgArrayAdapter extends RecyclerView.Adapter<OrgArrayAdapter.ViewHo
                 Chat chat = new Chat(
                         person, organization);
                 try{
-                    if (!(openHelper1.findChatIdByOrgIdAndPerId(
-                            organization.getId(), person.getId()) == 0)) {
+                    if (openHelper1.findChatIdByOrgIdAndPerId(
+                            organization.getId(), person.getId()) == -100) {
                         Log.e("ooabh", openHelper1.findAllChats().toString());
 
                         chat = new Chat(
@@ -138,9 +144,7 @@ public class OrgArrayAdapter extends RecyclerView.Adapter<OrgArrayAdapter.ViewHo
                                 openHelper1.findPersonByLogin(nameOfPerson).getId(), organization.getId()));
                     }
                 }catch (CursorIndexOutOfBoundsException e){
-                    openHelper1.insertChat(chat);
-                    new AppApiVolley(context).addChat(openHelper1.findChatByPersonIdAndOrgId(
-                            openHelper1.findPersonByLogin(nameOfPerson).getId(), organization.getId()));
+                    new AppApiVolley(context).addChat(chat);
                 }
                 Bundle bundleNameOfOrg = new Bundle();
                 bundleNameOfOrg.putString("NameOrg", holder.nameOrg.getText().toString());

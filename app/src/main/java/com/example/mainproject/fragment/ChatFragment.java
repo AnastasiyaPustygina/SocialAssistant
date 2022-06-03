@@ -50,6 +50,7 @@ public class ChatFragment extends Fragment {
     private ChatArrayAdapter recyclerAdapter;
     private AppCompatButton bt_update;
     private ActivityResultLauncher<Intent> launcher;
+    private MyChatThread myChatThread;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +85,12 @@ public class ChatFragment extends Fragment {
         } catch (CursorIndexOutOfBoundsException ignored) {
         }
 
-        byte[] photoByte = org.getPhotoOrg();
+        String[] s = org.getPhotoOrg().split(" ");
+        byte[] photoByte = new byte[s.length];
+        for (int i = 0; i < s.length; i++) {
+            photoByte[i] = Byte.parseByte(s[i]);
+        }
+
         imOrg.setImageBitmap(BitmapFactory.decodeByteArray(photoByte, 0, photoByte.length));
         bt_update = new AppCompatButton(getContext());
         bt_update.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +115,7 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
-        MyChatThread myChatThread = new MyChatThread(getContext());
+        myChatThread = new MyChatThread(getContext());
         myChatThread.start();
         imOrg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +147,7 @@ public class ChatFragment extends Fragment {
                 bt_arrow_back.performClick();
             }
         });
+
 
         nameOrg.setText(org.getName());
 
@@ -184,8 +190,6 @@ public class ChatFragment extends Fragment {
             }
         });
     }
-
-
     class MyChatThread extends Thread {
         private Context context;
         private OpenHelper openHelper;
@@ -226,5 +230,10 @@ public class ChatFragment extends Fragment {
             b = !b;
         }
     }
-}
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(myChatThread.b) myChatThread.changeBool();
+    }
+}

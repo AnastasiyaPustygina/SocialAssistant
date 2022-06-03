@@ -13,7 +13,7 @@ public class Organization {
     private int id;
     private String name;
     private String type;
-    private byte[] photoOrg;
+    private String photoOrg;
     private String description;
     private String address;
     private String needs;
@@ -26,17 +26,8 @@ public class Organization {
         this.type = type;
 
         SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
-        List<String> stringArrayList = Arrays.asList(
-                sharedPreferences.getString("org_photo" + address, "NOT FOUND PREF").split(" "));
-        byte[] byteArray = new byte[stringArrayList.size()];
-        for (int i = 0; i < stringArrayList.size(); i++) {
-            try {
-                byteArray[i] = Byte.parseByte(stringArrayList.get(i));
-            }catch(Exception e){
-                byteArray[i] = 0;
-            }
-        }
-        this.photoOrg = byteArray;
+
+        this.photoOrg = sharedPreferences.getString("org_photo" + address, "NOT FOUND PREF");
 
 
         this.description = description;
@@ -52,17 +43,8 @@ public class Organization {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         Bitmap.CompressFormat imFor = Bitmap.CompressFormat.PNG;
         SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
-        List<String> stringArrayList = Arrays.asList(
-                sharedPreferences.getString("org_photo" + address, "NOT FOUND PREF").split(" "));
-        byte[] byteArray = new byte[stringArrayList.size()];
-        for (int i = 0; i < stringArrayList.size(); i++) {
-            try {
-                byteArray[i] = Byte.parseByte(stringArrayList.get(i));
-            }catch(Exception e){
-                byteArray[i] = 0;
-            }
-        }
-        this.photoOrg = byteArray;
+
+        this.photoOrg = sharedPreferences.getString("org_photo" + address, "NOT FOUND PREF");
         this.description = description;
         this.address = address;
         this.needs = needs;
@@ -74,19 +56,8 @@ public class Organization {
         this.name = name;
         this.type = type;
         SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
-        List<String> stringArrayList = Arrays.asList(
-                sharedPreferences.getString("org_photo" + address, "NOT FOUND PREF").split(" "));
-        byte[] byteArray = new byte[stringArrayList.size()];
 
-            for (int i = 0; i < stringArrayList.size(); i++) {
-                try {
-                    byteArray[i] = Byte.parseByte(stringArrayList.get(i));
-                }catch(Exception e){
-                    byteArray[i] = 0;
-                }
-            }
-
-        this.photoOrg = byteArray;
+        this.photoOrg = sharedPreferences.getString("org_photo" + address, "NOT FOUND PREF");
         this.description = description;
         this.address = address;
         this.needs = needs;
@@ -105,7 +76,7 @@ public class Organization {
         return type;
     }
 
-    public byte[] getPhotoOrg() {
+    public String getPhotoOrg() {
         return photoOrg;
     }
 

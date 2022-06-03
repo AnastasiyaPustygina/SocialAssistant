@@ -14,17 +14,19 @@ public class OrganizationMapper {
     public static Organization organizationFromJson(JSONObject jsonObject) {
         Organization organization = null;
         try {
+            SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("org_photo" + jsonObject.getString("address"),
+                    jsonObject.getString("organizationPhoto"));
 
-                SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("org_photo" + jsonObject.getString("address"),
-                        jsonObject.getString("organizationPhoto"));
-                editor.commit();
+            editor.putString("org_login" + jsonObject.getString("address"), jsonObject.getString("login"));
+            editor.putString("org_pass" + jsonObject.getString("address"), jsonObject.getString("password"));
+            editor.commit();
 
             organization = new Organization(jsonObject.getInt("id"),
                     jsonObject.getString("name"), jsonObject.getString("type"),
                     jsonObject.getString("description"), jsonObject.getString("address"),
-                    jsonObject.getString("needs"), jsonObject.getString("linkToWebsite")) ;
+                    jsonObject.getString("needs"), jsonObject.getString("linkToWebsite"));
         } catch (
                 JSONException e) {
             e.printStackTrace();

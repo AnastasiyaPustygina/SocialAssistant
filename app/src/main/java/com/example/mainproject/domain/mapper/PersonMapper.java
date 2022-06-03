@@ -26,7 +26,7 @@ public class PersonMapper {
                     jsonObject.getString("name"), jsonObject.getInt("age"),
                     jsonObject.getString("date_of_birth"),
                     jsonObject.getString("city"),
-                    openHelper.findPassByLogin(jsonObject.getString("name")));
+                    jsonObject.getString("password"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

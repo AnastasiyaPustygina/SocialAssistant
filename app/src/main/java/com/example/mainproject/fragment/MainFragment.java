@@ -1,6 +1,7 @@
 package com.example.mainproject.fragment;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -26,17 +25,8 @@ import com.example.mainproject.OpenHelper;
 import com.example.android.multidex.mainproject.R;
 import com.example.mainproject.domain.Person;
 import com.example.mainproject.rest.AppApiVolley;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
-
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
 
 public class MainFragment extends Fragment {
@@ -47,6 +37,8 @@ public class MainFragment extends Fragment {
     private ActivityResultLauncher<String> myActivityResultLauncher;
 
 
+
+    public static SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
 
 
     @Nullable
@@ -69,36 +61,39 @@ public class MainFragment extends Fragment {
                                 null, OpenHelper.VERSION);
                         Person person = openHelper.findPersonByLogin(getArguments().getString("LOG"));
                         iv_ava.setImageURI(result);
-                        FirebaseApp.initializeApp(getContext());
-                        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                        StorageReference uploadImageRef = storageReference.child(
-                                "images/" + result.getLastPathSegment());
-                        UploadTask uploadTask = uploadImageRef.putFile(result);
-                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(
-                                        new OnCompleteListener<Uri>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Uri> task) {
-                                                String uploadedImageUrl = task.getResult().toString();
-                                                openHelper.changePhotoByPersonLogin(person.getName(),
-                                                        uploadedImageUrl);
-                                                new AppApiVolley(getContext()).updatePerson(
-                                                        person.getId(), person.getTelephone(), person.getEmail(), person.getName(),
-                                                        openHelper.findPersonByLogin(person.getName()).getPhotoPer(),
-                                                        person.getAge(), person.getDateOfBirth() ,person.getCity(), person.getPassword());
-                                            }
-                                        }
-                                );
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(), "Не удалось загрузить изображение",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        byte[] photoPer = null;
+                        Bitmap bitmap = null;
+                        try {
+                            iv_ava.buildDrawingCache();
+                            bitmap = iv_ava.getDrawingCache().copy(Bitmap.Config.RGB_565, false);
+                            iv_ava.setDrawingCacheEnabled(false);
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            Bitmap.CompressFormat imFor = Bitmap.CompressFormat.JPEG;
+                            bitmap.compress(imFor, 100, stream);
+                            photoPer = stream.toByteArray();
+
+                            bitmap.recycle();
+                        }catch (Exception e){
+                            Log.e("DOWNLOAD IMAGES","Cannot to use a recycled bitmap");
+                        }
+
+
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (int i = 0; i < photoPer.length - 1; i++) {
+                            stringBuilder.append(String.valueOf(photoPer[i])).append(" ");
+                        }
+                        stringBuilder.append(String.valueOf(
+                                photoPer[photoPer.length - 1]));
+
+                        editor.putString("per_photo" + person.getName(), stringBuilder.toString());
+                        editor.commit();
+
+                        new AppApiVolley(getContext()).updatePerson(
+                                person.getId(), person.getTelephone(), person.getEmail(),
+                        person.getName(), photoPer,
+                                person.getAge(), person.getDateOfBirth() ,person.getCity());
                     }
                 }
         );
@@ -126,15 +121,14 @@ public class MainFragment extends Fragment {
         OpenHelper openHelper = new OpenHelper(getContext(), "OpenHelder",
                 null, OpenHelper.VERSION);
         Person client = openHelper.findPersonByLogin(nameVal);
-        try{
-            if(client.getPhotoPer() != null)
-            Picasso.get().load(client.getPhotoPer()).into(iv_ava);
-            else iv_ava.setImageDrawable(getResources().getDrawable(R.drawable.ava_for_project));
+        try {
+            iv_ava.setImageBitmap(BitmapFactory.decodeByteArray(
+                    client.getPhotoPer(), 0, client.getPhotoPer().length));
         }catch (Exception e){
-            iv_ava.setImageDrawable(getResources().getDrawable(R.drawable.ava_for_project));
+            e.printStackTrace();
         }
         String dataValue;
-        if(client.getTelephone() == null || client.getTelephone().isEmpty() || client.getTelephone().equals("null")){
+        if(client.getTelephone() == null || client.getTelephone().isEmpty()){
             tv_forData.setText("Адрес электронной почты: ");
             dataValue = client.getEmail();
         } else{
@@ -147,6 +141,7 @@ public class MainFragment extends Fragment {
         tv_city.setText(client.getCity());
         Bundle bundleLog = new Bundle();
         bundleLog.putString("LOG", getArguments().getString("LOG"));
+        Log.e("PER_BYTE_ARRAY", Arrays.toString(client.getPhotoPer()));
         iv_ava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +161,7 @@ public class MainFragment extends Fragment {
                 bt_fav.performClick();
             }
         });
-        bt_list.setOnClickListener(new View.OnClickListener() {
+                bt_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bt_list.setOnClickListener((view1) -> {
@@ -189,20 +184,22 @@ public class MainFragment extends Fragment {
             }
         });
         try{
-            bt_map.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    bt_map.setOnClickListener((view1) -> {
-                        NavHostFragment.
-                                findNavController(MainFragment.this).navigate(
-                                R.id.action_mainFragment_to_mapFragment, bundleLog);
-                    });
-                    bt_map.performClick();
-                }
-            });
+        bt_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bt_map.setOnClickListener((view1) -> {
+                    NavHostFragment.
+                            findNavController(MainFragment.this).navigate(
+                            R.id.action_mainFragment_to_mapFragment, bundleLog);
+                });
+                bt_map.performClick();
+            }
+        });
         }catch (Exception e){
             Log.d("FavFragment", "Получение разрешения на определение геолокации");
         }
     }
 
 }
+
+

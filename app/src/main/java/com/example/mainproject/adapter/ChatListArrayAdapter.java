@@ -22,7 +22,6 @@ import com.example.mainproject.domain.Chat;
 import com.example.mainproject.fragment.ListOfChatsFragment;
 import com.example.mainproject.domain.Organization;
 import com.example.mainproject.rest.AppApiVolley;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -49,7 +48,6 @@ public class ChatListArrayAdapter extends RecyclerView.Adapter<ChatListArrayAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        try{
         OpenHelper openHelper = new OpenHelper(context, "OpenHelder", null, OpenHelper.VERSION);
         ArrayList<String> arrListLastMsg = openHelper.findLastMsgValuesByPerName(name);
         ArrayList<Integer> arrListChatId = openHelper.findLastChatIdByLogin(name);
@@ -62,16 +60,17 @@ public class ChatListArrayAdapter extends RecyclerView.Adapter<ChatListArrayAdap
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
-        Organization organization = arrayListLastOrg.get(arrayListLastOrg.size() - position - 1);
-            try{
-                if(organization.getPhotoOrg() == null)
-                    holder.ivOrgAva.setImageDrawable(context.getResources().getDrawable(R.drawable.ava_for_project));
-                else Picasso.get().load(organization.getPhotoOrg()).into(holder.ivOrgAva);
-            }catch (Exception e){
-                holder.ivOrgAva.setImageDrawable(context.getResources().getDrawable(R.drawable.ava_for_project));
+        try {
+            String[] s = arrayListLastOrg.get(arrayListLastOrg.size() - position - 1).getPhotoOrg().split(" ");
+            byte[] byteArray = new byte[s.length];
+            for (int i = 0; i < s.length; i++) {
+                byteArray[i] = Byte.parseByte(s[i]);
             }
 
+            holder.ivOrgAva.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0,
+                    byteArray.length));
             holder.lastMsg.setText(arrListLastMsg.get(arrListLastMsg.size() - position - 1));
+            Organization organization = arrayListLastOrg.get(arrayListLastOrg.size() - position - 1);
             holder.tvNameOrg.setText(organization.getName());
             Bundle bundle = new Bundle();
             bundle.putString("LOG", name);

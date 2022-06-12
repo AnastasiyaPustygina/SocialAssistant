@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "420651769250",
+    "project_id": "social-assistant-7a25d",
+    "storage_bucket": "social-assistant-7a25d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420651769250:android:6aea2576815fdd91c4a6fb",
+        "android_client_info": {
+          "package_name": "com.example.mainproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420651769250-141ieflpdfveee58u0hi6gjkharack2b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mainproject",
+            "certificate_hash": "857fcdd2ff5655f776bd2b432be1f988d2ca0200"
+          }
+        },
+        {
+          "client_id": "420651769250-rsq830buk8u8kapluv42c4m61kqppt1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt2JLbAeNQynAnb2QFhVjXy96ER6GZkn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420651769250-rsq830buk8u8kapluv42c4m61kqppt1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

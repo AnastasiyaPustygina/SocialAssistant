@@ -88,6 +88,7 @@ public class ChatArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             time = itemView.findViewById(R.id.tv_myMsg_time);
             main.setMaxWidth((int) (width * 0.7));
         }
+
     }
     public class HolderFirstType extends RecyclerView.ViewHolder{
         TextView main, time;

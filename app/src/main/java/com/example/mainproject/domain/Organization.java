@@ -31,6 +31,7 @@ public class Organization {
         this.linkToWebsite = linkToWebsite;
     }
 
+
     public Organization(String name, String type, String photoOrg,
                         String description, String address, String needs) {
         this.name = name;

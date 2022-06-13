@@ -14,6 +14,7 @@ public class PersonMapper {
     public static Person personFromJson(JSONObject jsonObject, Context context) {
         Person person = null;
         try {
+
             OpenHelper openHelper = new OpenHelper(context, "OpenHelder", null, OpenHelper.VERSION);
             String data = jsonObject.getString("telephone").isEmpty() ||
                     jsonObject.getString("telephone").equals("null") ||

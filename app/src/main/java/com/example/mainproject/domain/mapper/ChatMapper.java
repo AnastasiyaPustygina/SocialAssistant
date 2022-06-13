@@ -12,6 +12,7 @@ public class ChatMapper {
     public static Chat chatFromJson(JSONObject jsonObject, Context context) {
         Chat chat = null;
         try {
+
             chat = new Chat(Integer.parseInt(jsonObject.getString("id")),
                     PersonMapper.personFromChatJson(jsonObject, context),
                     OrganizationMapper.organizationFromChatJson(jsonObject));

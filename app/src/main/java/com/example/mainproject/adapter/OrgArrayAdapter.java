@@ -63,6 +63,7 @@ public class OrgArrayAdapter extends RecyclerView.Adapter<OrgArrayAdapter.ViewHo
         Organization organization = arrayOrg.get(position);
         OpenHelper openHelper1 = new OpenHelper(context, "OpenHelder", null, OpenHelper.VERSION);
         Person person = openHelper1.findPersonByLogin(nameOfPerson);
+
         try {
             if (openHelper1.findFavOrgByLogin(nameOfPerson).contains(organization.getName()))
                 holder.btIdenFav.setBackgroundResource(R.drawable.bt_fav_true);

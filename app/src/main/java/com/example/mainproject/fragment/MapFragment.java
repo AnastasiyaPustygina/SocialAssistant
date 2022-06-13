@@ -177,6 +177,7 @@ public class MapFragment extends Fragment  {
         List<Address> address;
 
         try {
+
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null) {
                 return latLng;

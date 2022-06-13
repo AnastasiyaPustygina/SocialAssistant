@@ -139,6 +139,7 @@ public class RegFragment extends Fragment {
                         password1.contains("=") || password1.contains("'")|| password1.contains(",")) {
                     checking.setText("Нельзя использовать дополнительные символы");
                 }
+
                 else if (!password1.equals(password2)) {
                     checking.setText("Пароли не совпадают");
                 } else if (check == 0){

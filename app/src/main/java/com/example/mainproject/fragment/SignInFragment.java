@@ -69,6 +69,7 @@ public class SignInFragment extends Fragment {
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
+
                 if (ed_pass.getText().toString().isEmpty() || ed_data.getText().toString().isEmpty())
                     checking.setText("Не все поля заполнены");
                 else if ((encodedHash).equals(oh.findPassByLogin(ed_data.getText().toString())))

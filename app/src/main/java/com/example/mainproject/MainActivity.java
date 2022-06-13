@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         new MyThread().run();
     }
     class MyThread extends Thread{
+
         @Override
         public void run() {
             super.run();

@@ -3,6 +3,7 @@ package com.example.mainproject.domain;
 import java.util.Objects;
 
 public class Chat {
+
     private int id;
     private Person person;
     private Organization organization;

@@ -37,6 +37,7 @@ public class ListFragment extends Fragment {
 
     @Override
     public void onStart() {
+
         super.onStart();
         bt_prof = getActivity().findViewById(R.id.bt_list_prof);
         bt_fav = getActivity().findViewById(R.id.bt_list_fav);

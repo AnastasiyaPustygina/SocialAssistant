@@ -107,6 +107,7 @@ public class OpenHelper extends SQLiteOpenHelper {
                 + COLUMN_CITY + " TEXT);";
         sqLiteDatabase.execSQL(query);
 
+
         query = "CREATE TABLE " + TABLE_ORG_NAME + "(" +
                 COLUMN_ORGANIZATION_ID + " INTEGER, " +
                 COLUMN_ORGNAME + " TEXT, " +

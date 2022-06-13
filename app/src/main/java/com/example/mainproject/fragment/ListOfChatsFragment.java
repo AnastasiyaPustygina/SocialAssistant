@@ -60,6 +60,7 @@ public class ListOfChatsFragment extends Fragment {
                 btProfile.performClick();
             }
         });
+
         btList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

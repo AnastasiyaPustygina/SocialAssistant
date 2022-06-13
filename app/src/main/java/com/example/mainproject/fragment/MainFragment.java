@@ -134,6 +134,7 @@ public class MainFragment extends Fragment {
         }catch (Exception e){
             iv_ava.setImageDrawable(getResources().getDrawable(R.drawable.ava_for_project));
         }
+
         String dataValue;
         if(client.getTelephone() == null || client.getTelephone().isEmpty() || client.getTelephone().equals("null")){
             tv_forData.setText("Адрес электронной почты: ");

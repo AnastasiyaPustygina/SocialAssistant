@@ -25,6 +25,7 @@ public class Person {
         this.id = id;
         if(data.contains("@")) this.email = data;
         else this.telephone = data;
+
         this.name = name;
         this.photoPer = photoPer;
 

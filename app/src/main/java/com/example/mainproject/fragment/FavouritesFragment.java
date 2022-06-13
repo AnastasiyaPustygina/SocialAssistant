@@ -29,6 +29,7 @@ public class FavouritesFragment extends Fragment {
 
     @Override
     public void onStart() {
+
         super.onStart();
         bt_prof = getActivity().findViewById(R.id.bt_fav_prof);
         bt_list = getActivity().findViewById(R.id.bt_fav_list);

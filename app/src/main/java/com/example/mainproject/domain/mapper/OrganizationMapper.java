@@ -14,6 +14,7 @@ public class OrganizationMapper {
     public static Organization organizationFromJson(JSONObject jsonObject) {
         Organization organization = null;
         try {
+
             SharedPreferences sharedPreferences = SignInFragment.sharedPreferences;
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("org_login" + jsonObject.getString("address"), jsonObject.getString("login"));

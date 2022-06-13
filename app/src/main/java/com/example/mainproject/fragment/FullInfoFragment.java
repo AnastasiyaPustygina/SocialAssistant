@@ -45,6 +45,7 @@ public class FullInfoFragment extends Fragment {
 
     @Override
     public void onStart() {
+
         super.onStart();
         bt_prev = getActivity().findViewById(R.id.bt_fullInfo_arrowBack);
         bt_help = getActivity().findViewById(R.id.bt_fullInfo_help);

@@ -12,6 +12,7 @@ public class MessageMapper {
     public static Message messageFromJson(JSONObject jsonObject, Context context) {
         Message message = null;
         try {
+
             message = new Message(Integer.parseInt(jsonObject.getString("id")),
                     jsonObject.getString("whose"),
                     ChatMapper.chatFromMsgJson(jsonObject, context).getId(),

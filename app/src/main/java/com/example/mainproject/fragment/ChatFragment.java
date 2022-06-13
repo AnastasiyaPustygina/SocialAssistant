@@ -77,7 +77,6 @@ public class ChatFragment extends Fragment {
         Organization org = openHelper.findOrgByName(getArguments().getString("NameOrg"));
         RecyclerView rec = getActivity().findViewById(R.id.rec_chat);
         try {
-
             recyclerAdapter = new ChatArrayAdapter(getContext(),
                     ChatFragment.this, openHelper.findChatIdByOrgIdAndPerId(org.getId(), perId));
             rec.setAdapter(recyclerAdapter);

@@ -64,6 +64,7 @@ public class ChatListArrayAdapter extends RecyclerView.Adapter<ChatListArrayAdap
         }
         Organization organization = arrayListLastOrg.get(arrayListLastOrg.size() - position - 1);
             try{
+
                 if(organization.getPhotoOrg() == null)
                     holder.ivOrgAva.setImageDrawable(context.getResources().getDrawable(R.drawable.ava_for_project));
                 else Picasso.get().load(organization.getPhotoOrg()).into(holder.ivOrgAva);

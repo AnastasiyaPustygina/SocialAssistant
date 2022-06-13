@@ -36,7 +36,6 @@ import com.example.mainproject.adapter.ChatArrayAdapter;
 import com.example.mainproject.domain.Message;
 import com.example.mainproject.domain.Organization;
 import com.example.mainproject.rest.AppApiVolley;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,15 +83,14 @@ public class ChatFragment extends Fragment {
                     openHelper.findChatIdByOrgIdAndPerId(org.getId(), perId)).size() - 1);
         } catch (CursorIndexOutOfBoundsException ignored) {
         }
-        try{
-            if(org.getPhotoOrg() == null)
-                imOrg.setImageDrawable(getResources().getDrawable(R.drawable.ava_for_project));
-            else Picasso.get().load(org.getPhotoOrg()).into(imOrg);
-        }catch (Exception e){
-            imOrg.setImageDrawable(getResources().getDrawable(R.drawable.ava_for_project));
+
+        String[] s = org.getPhotoOrg().split(" ");
+        byte[] photoByte = new byte[s.length];
+        for (int i = 0; i < s.length; i++) {
+            photoByte[i] = Byte.parseByte(s[i]);
         }
 
-
+        imOrg.setImageBitmap(BitmapFactory.decodeByteArray(photoByte, 0, photoByte.length));
         bt_update = new AppCompatButton(getContext());
         bt_update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +209,6 @@ public class ChatFragment extends Fragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if(!b) break;
                     requireActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

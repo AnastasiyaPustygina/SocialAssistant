@@ -61,14 +61,9 @@ public class ChatListArrayAdapter extends RecyclerView.Adapter<ChatListArrayAdap
             }
         }
         try {
-            String[] s = arrayListLastOrg.get(arrayListLastOrg.size() - position - 1).getPhotoOrg().split(" ");
-            byte[] byteArray = new byte[s.length];
-            for (int i = 0; i < s.length; i++) {
-                byteArray[i] = Byte.parseByte(s[i]);
-            }
-
-            holder.ivOrgAva.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0,
-                    byteArray.length));
+            holder.ivOrgAva.setImageBitmap(BitmapFactory.decodeByteArray(arrayListLastOrg.get
+                            (arrayListLastOrg.size() - position - 1).getPhotoOrg(), 0,
+                    arrayListLastOrg.get(arrayListLastOrg.size() - position - 1).getPhotoOrg().length));
             holder.lastMsg.setText(arrListLastMsg.get(arrListLastMsg.size() - position - 1));
             Organization organization = arrayListLastOrg.get(arrayListLastOrg.size() - position - 1);
             holder.tvNameOrg.setText(organization.getName());

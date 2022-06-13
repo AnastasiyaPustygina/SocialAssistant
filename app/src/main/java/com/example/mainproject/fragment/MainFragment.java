@@ -127,6 +127,7 @@ public class MainFragment extends Fragment {
                 null, OpenHelper.VERSION);
         Person client = openHelper.findPersonByLogin(nameVal);
         try{
+
             if(client.getPhotoPer() != null)
             Picasso.get().load(client.getPhotoPer()).into(iv_ava);
             else iv_ava.setImageDrawable(getResources().getDrawable(R.drawable.ava_for_project));
